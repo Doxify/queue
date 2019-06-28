@@ -11,7 +11,7 @@ public class Queue extends LinkedList<QueuedPlayer> {
     /**
      * The time between ticking the queue to send a new player
      */
-    public static final long TIME_BETWEEN_SENDING_MILLIS = 250L;
+    public static final long TIME_BETWEEN_SENDING_MILLIS = 750L;
 
     private final QueuePlugin plugin;
     private final ServerInfo target;

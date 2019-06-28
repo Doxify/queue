@@ -25,7 +25,7 @@ public class QueueCommand extends QueuePluginCommand {
             Queue queue = queuedPlayer.getQueue();
 
             if (queue == null) {
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not in a queue"));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not in a queue."));
             } else {
                 sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + String.format("You are currently in " +
                         "position %d of %d for server %s", queuedPlayer.getPosition(), queue.size(), queue.getTarget().getName())));
