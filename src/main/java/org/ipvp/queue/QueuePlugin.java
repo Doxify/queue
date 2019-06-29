@@ -19,6 +19,7 @@ import org.ipvp.queue.command.PauseCommand;
 import org.ipvp.queue.command.QueueCommand;
 import org.ipvp.queue.task.PositionNotificationTask;
 
+import javax.xml.soap.Text;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -232,17 +233,18 @@ public class QueuePlugin extends Plugin implements Listener {
                 if (queued.getPriority() >= 999) {
                     ServerInfo info = getProxy().getServerInfo(target);
                     player.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Attempting to send you to " + targetFormatted + "..."));
-                    player.connect(info, (result, error) -> {
-                        if (result) {
-                            player.sendMessage(TextComponent.fromLegacyText(YELLOW + "You have been sent to " + targetFormatted + "!"));
-                        }
-                    });
+                    player.connect(info);
+//                    player.connect(info, (result, error) -> {
+//                        if (result) {
+//                            player.sendMessage(TextComponent.fromLegacyText(YELLOW + "You have been sent to " + targetFormatted + "!"));
+//                        }
+//                    });
                     return;
                 }
 
                 if (queued.getQueue() != null) {
                     if (queued.getQueue().getTarget().getName().equalsIgnoreCase(target)) {
-                        player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are already in the queue for " + targetFormatted));
+                        player.sendMessage(TextComponent.fromLegacyText(YELLOW + "You are already in the queue for " + RED + targetFormatted + YELLOW + "."));
                     } else {
                         player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You must leave your current queue before joining another one."));
                         player.sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + "Use /leavequeue to leave your current queue."));
@@ -254,7 +256,8 @@ public class QueuePlugin extends Plugin implements Listener {
                 queue.add(index, queued);
                 queued.setQueue(queue);
                 player.sendMessage(TextComponent.fromLegacyText(YELLOW + "Successfully joined the queue for " + RED + targetFormatted + YELLOW + "."));
-//                player.sendMessage(TextComponent.fromLegacyText(String.format(GOLD + "Position: " + GREEN + "%d " + GOLD + "of " + RED + "%d", queued.getPosition() + 1, queue.size())));
+                player.sendMessage(TextComponent.fromLegacyText(RED + "Type /leavequeue to leave the current queue."));
+
                 if (queue.isPaused()) {
                     player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "The queue for " + targetFormatted + " is currently paused."));
                 }
@@ -268,7 +271,7 @@ public class QueuePlugin extends Plugin implements Listener {
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     String targetFormatted = queue.getTarget().getName().substring(0, 1).toUpperCase() + queue.getTarget().getName().substring(1);
                     out.writeUTF("Position");
-                    out.writeUTF(targetFormatted + ";" + queued.getPosition() + ";" + queue.size());
+                    out.writeUTF(targetFormatted + ";" + queued.getPosition() + ";" + queue.size() + ";" + queued.getSecondsInQueue());
 
                     player.getServer().sendData("NSAQueue", out.toByteArray());
                 } else {
@@ -278,8 +281,6 @@ public class QueuePlugin extends Plugin implements Listener {
 
                     player.getServer().sendData("NSAQueue", out.toByteArray());
                 }
-
-                return;
             }
         }
     }

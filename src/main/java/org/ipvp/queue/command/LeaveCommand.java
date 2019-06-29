@@ -17,17 +17,17 @@ public class LeaveCommand extends QueuePluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage(TextComponent.fromLegacyText("You must be a player to use this command"));
+            sender.sendMessage(TextComponent.fromLegacyText("You must be a player to use this command."));
         } else {
             ProxiedPlayer player = (ProxiedPlayer) sender;
             QueuedPlayer queued = getPlugin().getQueued(player);
             if (!queued.isInQueue()) {
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not in a queue"));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not in a queue."));
             } else {
                 Queue queue = queued.getQueue();
                 queue.remove(queued);
                 queued.setQueue(null);
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "You have left the queue"));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "You have left the queue."));
             }
         }
     }

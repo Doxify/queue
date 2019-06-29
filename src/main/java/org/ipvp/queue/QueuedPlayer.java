@@ -2,6 +2,8 @@ package org.ipvp.queue;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public final class QueuedPlayer {
@@ -9,6 +11,7 @@ public final class QueuedPlayer {
     private ProxiedPlayer handle;
     private int priority;
     private Queue queue;
+    private LocalDateTime queueEnterTime;
 
     public QueuedPlayer(ProxiedPlayer handle, int priority) {
         Objects.requireNonNull(handle, "Player cannot be null");
@@ -70,6 +73,12 @@ public final class QueuedPlayer {
         return -1;
     }
 
+    public int getSecondsInQueue() {
+        LocalDateTime now = LocalDateTime.now();
+        long time = Math.round(ChronoUnit.MILLIS.between(queueEnterTime, now) / 1000.0 );
+        return Math.toIntExact(time);
+    }
+
     /**
      * Sets the queue this player is waiting for
      *
@@ -77,6 +86,9 @@ public final class QueuedPlayer {
      */
     public void setQueue(Queue queue) {
         this.queue = queue;
+        if(queue != null) {
+            this.queueEnterTime = LocalDateTime.now();
+        }
     }
 
     @Override
