@@ -282,6 +282,25 @@ public class QueuePlugin extends Plugin implements Listener {
                     player.getServer().sendData("NSAQueue", out.toByteArray());
                 }
             }
+
+            if (sub.equals("Queued")) {
+                String target = in.readUTF();
+                Queue queue = getQueue(target);
+
+                if(queue != null) {
+                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                    out.writeUTF("Queued");
+                    out.writeUTF(String.valueOf(queue.size()));
+
+                    player.getServer().sendData("ForemostQueue", out.toByteArray());
+                } else {
+                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                    out.writeUTF("Queued");
+                    out.writeUTF(String.valueOf(0));
+
+                    player.getServer().sendData("ForemostQueue", out.toByteArray());
+                }
+            }
         }
     }
 

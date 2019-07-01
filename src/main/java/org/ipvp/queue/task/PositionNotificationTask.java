@@ -23,7 +23,7 @@ public class PositionNotificationTask implements Runnable {
             p.getHandle().sendMessage(TextComponent.fromLegacyText(String.format(YELLOW + "You are in position " + GREEN + "%d " + YELLOW + "of " + RED + "%d" + YELLOW + " for " +  RED + queueServer + GOLD + ".", p.getPosition() + 1, p.getQueue().size())));
             p.getHandle().sendMessage(TextComponent.fromLegacyText(GREEN + "Purchase a rank for higher queue priority: " + RED + "store.saphron.org"));
             if (p.getQueue().isPaused()) {
-                p.getHandle().sendMessage(TextComponent.fromLegacyText(YELLOW + "The queue for " + RED + queueServer + YELLOW + " is currently paused."));
+                p.getHandle().sendMessage(TextComponent.fromLegacyText(RED + "The queue for " + queueServer + " is currently paused."));
             }
         });
     }
